@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# download random image
+IURL=$(http -h GET 'https://source.unsplash.com/random/1920x1080?nature' | grep 'Location: ' | sed -e 's/Location: //')
+tempfile="$(mktemp)"
+http -bo "$tempfile" GET "$IURL"
+
+# copy to library
+[ ! -d '/var/randomsplash/photos' ] && mkdir -p '/var/randomsplash/photos'
+imgfile="/var/randomsplash/photos/photo-$(md5sum "$tempfile" | cut -d' ' -f1).jpg"
+mv "$tempfile" "$imgfile"
+chmod +r "$imgfile"
+echo [ "$(date)" ] "$IURL" '-' "$imgfile" >> /var/log/randomsplash.log
+
+# hooks
+cp "$imgfile" /usr/share/lightdm-webkit/themes/litarvan/images/background.jpg
+
