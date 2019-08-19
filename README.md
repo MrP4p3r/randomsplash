@@ -7,5 +7,5 @@ You can create systemd service or cron job to run this script.
 
 Remeber to check and edit hooks section in script.
 By default there is only a line which replaces background image
-for litarvan xfce4 theme.
+for [Litarvan's LightDM WebKit2 theme](https://github.com/Litarvan/lightdm-webkit-theme-litarvan).
 
